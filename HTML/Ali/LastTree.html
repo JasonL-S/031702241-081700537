@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>最后一个</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:auto;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<!--<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.1.1/build/g6.js"></script>-->
+<!--<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>-->
+<!--<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.hierarchy-0.5.0/build/hierarchy.js"></script>-->
+<!--<script src="g6.js"></script>-->
+<script src="g66.js"></script>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="hierarchy.js"></script>
+
+<!--<script>-->
+<!--    console.log(G6.Global.version);-->
+<!--</script>-->
+
+
+
+<script>
+    $.getJSON('AilJson2.json', function(data) {
+        console.log("type of data is "+typeof data);
+        var graph = new G6.TreeGraph({
+            container: 'mountNode',
+            width: window.innerWidth,
+            height: window.innerHeight,
+            pixelRatio: 2,
+            modes: {
+                default: [{
+                    type: 'collapse-expand',
+                    onChange: function onChange(item, collapsed) {
+                        var data = item.get('model').data;
+                        data.collapsed = collapsed;
+                        return true;
+                    }
+                }, 'drag-canvas', 'zoom-canvas']
+            },
+
+            /******************美化****************/
+            defaultNode: {
+                size: 16,
+                anchorPoints: [[0, 0.5], [1, 0.5]],
+                style: {
+                    fill: '#59ff15',
+                    stroke: '#d91808'
+                }
+            },
+
+            defaultEdge: {
+                shape: 'cubic-horizontal',
+                style: {
+                    stroke: '#000000'
+                }
+            },
+
+            layout: {
+                type: 'compactBox',
+                direction: 'LR',
+                // nodeSep:30,
+                // rankSep:100,
+                getId: function getId(d) {
+                    return d.id;
+                },
+                getHeight: function getHeight() {
+                    return 16;
+                },
+                getWidth: function getWidth() {
+                    return 16;
+                },
+                getVGap: function getVGap() {
+                    return 10;
+                },
+                getHGap: function getHGap() {
+                    return 100;
+                }
+            }
+        });
+
+
+
+
+        graph.node(function(node) {
+            return {
+                size: 26,
+                style: {
+                    fill: '#171bff',		//节点颜色
+                    stroke: '#000000'	//节点边框
+                },
+                label: node.id,
+                labelCfg: {
+                    position: node.children && node.children.length > 0 ? 'left' : 'right'
+                }
+            };
+        });
+
+        graph.data(data);
+        graph.render();
+        graph.fitView();
+    });
+</script>
+</body>
+</html>

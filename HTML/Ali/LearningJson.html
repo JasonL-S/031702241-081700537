@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学习JSON</title>
+    <script src="jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<script>
+    $(function () {
+
+        var data =
+            {
+                GoThroughNo: "ABC00001",
+                AwbList: []
+            };
+
+
+        for (var i = 0; i < 10; i++) {
+            var hawbMapping = new Object();
+            hawbMapping.Mawb = i;
+            hawbMapping.Hawb = i + "001";
+            hawbMapping.PictrueUrls = ["http://www.baidu.com/", "http://sina.com.cn"];
+            data.AwbList.push(hawbMapping);
+        }
+
+
+        var jsonString = JSON.stringify(data);
+
+        alert(jsonString);
+        console.log(jsonString);
+    });
+</script>
+</body>
+</html>
